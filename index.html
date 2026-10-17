@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7faf6">
+  <meta name="description" content="A personal JAMB 2027 study companion for learning by topic, practising questions and building steady study habits.">
+  <title>PrepSage JAMB · Your study space</title>
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" data-view-link="dashboard" aria-label="PrepSage home">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="brand-copy"><strong>PrepSage</strong><small>JAMB 2027</small></span>
+      </a>
+
+      <div class="side-label">YOUR SPACE</div>
+      <nav class="primary-nav" aria-label="Main navigation">
+        <button class="nav-link active" data-view-link="dashboard"><span class="nav-icon">⌂</span><span>Home</span></button>
+        <button class="nav-link" data-view-link="learn"><span class="nav-icon">▤</span><span>Learn by topic</span><span class="nav-count">4</span></button>
+        <button class="nav-link" data-view-link="practice"><span class="nav-icon">◉</span><span>CBT practice</span></button>
+        <button class="nav-link" data-view-link="library"><span class="nav-icon">▣</span><span>My library</span></button>
+        <button class="nav-link" data-view-link="planner"><span class="nav-icon">▦</span><span>Study planner</span></button>
+        <button class="nav-link" data-view-link="progress"><span class="nav-icon">↗</span><span>My progress</span></button>
+      </nav>
+
+      <div class="sidebar-spacer"></div>
+      <div class="streak-card">
+        <div class="streak-top"><span class="streak-symbol">✦</span><span class="eyebrow">YOUR DAILY PROMISE</span></div>
+        <strong>Small steps count.</strong>
+        <p>A little learning today makes tomorrow easier.</p>
+        <button class="text-button" data-view-link="planner">See today's plan <span>↗</span></button>
+      </div>
+      <div class="sidebar-foot"><span class="avatar">S</span><span><strong>My study space</strong><small>Personal learning profile</small></span><span class="more">···</span></div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="mobile-menu icon-button" id="mobile-menu" aria-label="Open navigation">☰</button>
+        <div class="breadcrumb"><span>PrepSage</span><span class="crumb-slash">/</span><strong id="page-breadcrumb">Home</strong></div>
+        <div class="top-actions">
+          <span class="today-label" id="today-label">Your study space</span>
+          <button class="icon-button notification-button" id="message-button" aria-label="Read encouragement">♡<i></i></button>
+          <div class="tiny-avatar">S</div>
+        </div>
+      </header>
+
+      <div class="content-wrap">
+        <section class="view-section active" id="view-dashboard" data-view="dashboard">
+          <div class="welcome-row">
+            <div>
+              <div class="eyebrow green-eyebrow"><span class="live-dot"></span> YOUR JAMB 2027 JOURNEY</div>
+              <h1>Good things take <em>practice.</em></h1>
+              <p class="welcome-subtitle">One topic at a time. You're building something wonderful. <span class="soft-heart">♥</span></p>
+            </div>
+            <div class="welcome-date"><span class="date-icon">✳</span><span><strong id="full-date">Today is a fresh start</strong><small>Make it count, gently.</small></span></div>
+          </div>
+
+          <div class="hero-card">
+            <div class="hero-text">
+              <span class="hero-pill"><span class="pill-dot"></span> PICK UP WHERE YOU LEFT OFF</span>
+              <h2>Every topic you learn<br>brings you <span>closer.</span></h2>
+              <p>Let's keep your Pharmacy dream moving forward. No rush, just progress.</p>
+              <button class="button button-light" data-open-lesson="biology-cell">Continue learning <span>→</span></button>
+              <div class="hero-note"><span>♡</span> Proud of you for showing up.</div>
+            </div>
+            <div class="hero-art" aria-hidden="true">
+              <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+              <div class="leaf leaf-back"></div><div class="leaf leaf-front"></div>
+              <div class="book-art"><div class="book-page"></div><div class="book-page page-two"></div><div class="book-band"></div></div>
+              <div class="spark spark-one">✦</div><div class="spark spark-two">✳</div><div class="spark spark-three">·</div>
+            </div>
+          </div>
+
+          <div class="stat-grid">
+            <article class="stat-card"><div class="stat-icon stat-mint">◷</div><div><span class="stat-label">Study time this week</span><strong><span id="study-minutes">0</span> <small>mins</small></strong><div class="stat-foot"><span class="mini-line"></span> Keep your rhythm</div></div></article>
+            <article class="stat-card"><div class="stat-icon stat-lilac">✓</div><div><span class="stat-label">Topics completed</span><strong><span id="topics-completed">0</span> <small>topics</small></strong><div class="stat-foot">Every little win adds up</div></div></article>
+            <article class="stat-card"><div class="stat-icon stat-peach">◎</div><div><span class="stat-label">Practice accuracy</span><strong><span id="practice-accuracy">—</span></strong><div class="stat-foot">Your score, your progress</div></div></article>
+          </div>
+
+          <div class="section-heading"><div><span class="eyebrow">YOUR LEARNING PATH</span><h2>Pick a subject</h2></div><button class="quiet-link" data-view-link="learn">View syllabus topics <span>→</span></button></div>
+          <div class="subject-grid">
+            <button class="subject-card subject-english" data-subject="english"><span class="subject-icon">Aa</span><span class="subject-info"><strong>Use of English</strong><small>Comprehension, lexis & structure</small><span class="subject-progress"><i style="width:8%"></i></span><span class="subject-meta"><b>Start with the basics</b><span>↗</span></span></span></button>
+            <button class="subject-card subject-chemistry" data-subject="chemistry"><span class="subject-icon">⚗</span><span class="subject-info"><strong>Chemistry</strong><small>Atoms, bonding & reactions</small><span class="subject-progress"><i style="width:8%"></i></span><span class="subject-meta"><b>Build your foundation</b><span>↗</span></span></span></button>
+            <button class="subject-card subject-biology" data-subject="biology"><span class="subject-icon">✳</span><span class="subject-info"><strong>Biology</strong><small>Cells, life & living systems</small><span class="subject-progress"><i style="width:18%"></i></span><span class="subject-meta"><b>Continue cell structure</b><span>↗</span></span></span></button>
+            <button class="subject-card subject-physics" data-subject="physics"><span class="subject-icon">⌁</span><span class="subject-info"><strong>Physics</strong><small>Motion, energy & matter</small><span class="subject-progress"><i style="width:8%"></i></span><span class="subject-meta"><b>Start with measurements</b><span>↗</span></span></span></button>
+          </div>
+
+          <div class="lower-grid">
+            <section class="panel today-panel">
+              <div class="panel-heading"><div><span class="eyebrow">A GOOD PLACE TO START</span><h3>Today's focus</h3></div><span class="today-check">✦</span></div>
+              <div class="focus-item"><div class="focus-number">01</div><div class="focus-copy"><strong>Biology: Cell structure</strong><span>Learn the parts of a cell and what they do.</span><small>15 min · Lesson + 3 questions</small></div><button class="round-arrow" data-open-lesson="biology-cell" aria-label="Open cell structure lesson">↗</button></div>
+              <div class="focus-item"><div class="focus-number focus-number-two">02</div><div class="focus-copy"><strong>English: Word of the day</strong><span>Learn a word and practise using it.</span><small>5 min · Vocabulary</small></div><button class="round-arrow" data-view-link="learn" aria-label="Open vocabulary">↗</button></div>
+              <div class="panel-bottom"><span class="tiny-spark">✳</span> You don't need a perfect day. Just a start.</div>
+            </section>
+            <section class="panel word-panel">
+              <div class="word-top"><span class="eyebrow">WORD OF THE DAY</span><span class="word-date">ENGLISH</span></div>
+              <div class="word-word" id="word-title">Resilient<span>.</span></div>
+              <div class="pronunciation" id="word-pronunciation">/rɪˈzɪliənt/ · adjective</div>
+              <p id="word-definition">Able to recover and keep going after something difficult.</p>
+              <div class="word-example"><span>IN A SENTENCE</span><p id="word-example">“She remained resilient and kept preparing, even when a topic felt difficult.”</p></div>
+              <button class="quiet-link" id="next-word">Learn another word <span>→</span></button>
+            </section>
+          </div>
+
+          <div class="encouragement-strip"><div class="encourage-mark">♡</div><div><span class="eyebrow">A LITTLE NOTE FOR YOU</span><p id="encouragement-message">Dear future healthcare professional, your dream deserves patience, effort and kindness. Take it one chapter at a time. You've got this. ❤️</p></div><button class="refresh-message" id="refresh-message" aria-label="Show another encouraging message">↻</button></div>
+        </section>
+
+        <section class="view-section" id="view-learn" data-view="learn">
+          <div class="page-intro"><span class="eyebrow green-eyebrow">THE OFFICIAL SYLLABUS, MADE FRIENDLIER</span><h1>Learn <em>by topic.</em></h1><p>Understand one idea, watch a lesson, then practise questions about exactly what you learned.</p></div>
+          <div class="subject-tabs" id="subject-tabs">
+            <button class="subject-tab active" data-subject-tab="biology">✳ Biology</button><button class="subject-tab" data-subject-tab="chemistry">⚗ Chemistry</button><button class="subject-tab" data-subject-tab="english">Aa Use of English</button><button class="subject-tab" data-subject-tab="physics">⌁ Physics</button>
+          </div>
+          <div class="learning-layout">
+            <aside class="topic-sidebar panel"><div class="topic-side-title"><span class="eyebrow">YOUR TOPICS</span><span class="topic-count" id="topic-count">4 topics</span></div><div id="topic-list" class="topic-list"></div><div class="syllabus-note"><span>ⓘ</span><p>Topic lists are a starter map. We'll verify and expand them against the current official JAMB syllabus.</p></div></aside>
+            <article class="lesson-content panel" id="lesson-content">
+              <div class="lesson-kicker"><span class="lesson-subject-pill">BIOLOGY</span><span class="lesson-status">LESSON 01</span></div>
+              <h2>Cell Structure and Organisation</h2>
+              <p class="lesson-lead">Cells are the basic structural and functional units of living organisms. Let's get comfortable with the parts before we move to more complex ideas.</p>
+              <div class="lesson-callout"><span class="callout-icon">✳</span><div><strong>What you'll learn</strong><p>Identify the main cell structures, explain their functions, and distinguish plant cells from animal cells.</p></div></div>
+              <h3>Start with the basics</h3>
+              <p>Think of a cell as a tiny living workspace. Each structure has a job that helps the cell stay alive and function properly.</p>
+              <div class="concept-grid"><div class="concept-item"><span class="concept-dot dot-green"></span><div><strong>Cell membrane</strong><p>Controls what enters and leaves the cell.</p></div></div><div class="concept-item"><span class="concept-dot dot-gold"></span><div><strong>Cytoplasm</strong><p>Where many chemical reactions take place.</p></div></div><div class="concept-item"><span class="concept-dot dot-purple"></span><div><strong>Nucleus</strong><p>Contains genetic material and helps control cell activities.</p></div></div><div class="concept-item"><span class="concept-dot dot-blue"></span><div><strong>Mitochondrion</strong><p>Releases usable energy through respiration.</p></div></div></div>
+              <div class="lesson-video"><div class="video-symbol">▷</div><div><strong>Watch a lesson on this topic</strong><p>Open YouTube and search for a clear explanation of cell structure for JAMB Biology.</p></div><a id="video-search" href="https://www.youtube.com/results?search_query=JAMB+Biology+cell+structure+lesson" target="_blank" rel="noopener noreferrer" class="button button-outline">Find lesson ↗</a></div>
+              <div class="lesson-footer"><span class="content-source">Starter lesson · Review against official syllabus</span><button class="button button-primary" id="mark-complete">Mark topic complete <span>✓</span></button></div>
+              <div class="inline-practice"><div><span class="eyebrow">CHECK WHAT YOU LEARNED</span><h3>Ready for 3 quick questions?</h3><p>These are original practice questions, not claimed official past questions.</p></div><button class="button button-primary" data-view-link="practice">Start quick quiz →</button></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="view-section" id="view-practice" data-view="practice">
+          <div class="page-intro"><span class="eyebrow green-eyebrow">PRACTICE MAKES IT STICK</span><h1>Test what you <em>know.</em></h1><p>Use short topic quizzes now, then build up to timed CBT mock exams.</p></div>
+          <div class="practice-options">
+            <article class="practice-card practice-featured"><div class="practice-symbol">◉</div><span class="eyebrow">QUICK PRACTICE</span><h2>Cell structure check-in</h2><p>Three original Biology questions based on the sample lesson. Get feedback right away.</p><div class="practice-meta"><span>3 questions</span><span>·</span><span>About 4 minutes</span></div><button class="button button-primary" id="start-quiz">Start practice <span>→</span></button></article>
+            <article class="practice-card"><div class="practice-symbol practice-symbol-blue">◷</div><span class="eyebrow">TIMED EXAM</span><h2>CBT mock exam</h2><p>Practise with an exam-style timer, question navigation and a final result screen.</p><div class="practice-meta"><span>Sample questions</span><span>·</span><span>Timer included</span></div><button class="button button-outline" id="start-mock">Try sample mock <span>→</span></button></article>
+          </div>
+          <div class="practice-disclaimer"><span>ⓘ</span><p>Practice content in this starter is illustrative. We'll add verified past questions only when their source is confirmed. Your practice results are saved in this browser.</p></div>
+          <div class="quiz-panel panel hidden" id="quiz-panel">
+            <div class="quiz-header"><div><span class="eyebrow" id="quiz-mode-label">TOPIC PRACTICE</span><h2 id="quiz-title">Cell structure check-in</h2></div><span class="quiz-counter" id="quiz-counter">Question 1 of 3</span></div>
+            <div class="quiz-progress"><i id="quiz-progress-bar"></i></div>
+            <div id="quiz-question-area"></div>
+            <div class="quiz-controls"><button class="button button-quiet" id="quiz-back">← Back</button><button class="button button-primary" id="quiz-next">Check answer →</button></div>
+            <div class="quiz-result hidden" id="quiz-result"></div>
+          </div>
+        </section>
+
+        <section class="view-section" id="view-library" data-view="library">
+          <div class="page-intro"><span class="eyebrow green-eyebrow">KEEP YOUR MATERIALS TOGETHER</span><h1>Your study <em>library.</em></h1><p>Collect the PDFs, books, links and notes you want to return to.</p></div>
+          <div class="library-toolbar"><label class="search-box"><span>⌕</span><input type="search" id="library-search" placeholder="Find a book, note or resource"></label><button class="button button-primary" id="add-resource">＋ Add material</button><input type="file" id="resource-file" accept=".pdf,.txt,.md,.doc,.docx,.epub" hidden></div>
+          <div class="library-filter"><button class="filter-chip active" data-library-filter="all">All materials</button><button class="filter-chip" data-library-filter="note">My notes</button><button class="filter-chip" data-library-filter="pdf">PDFs & books</button><button class="filter-chip" data-library-filter="link">Video links</button></div>
+          <div class="resource-grid" id="resource-grid">
+            <article class="resource-card" data-resource-type="link" data-resource-search="jamb official syllabus ibass"><div class="resource-cover cover-green"><span>JAMB</span><strong>Official syllabus</strong><small>REFERENCE</small></div><div class="resource-details"><span class="resource-type">OFFICIAL RESOURCE</span><h3>JAMB IBASS</h3><p>Check syllabus and admission information from the official source.</p><a href="https://ibass.jamb.gov.ng/" target="_blank" rel="noopener noreferrer">Open resource ↗</a></div></article>
+            <article class="resource-card" data-resource-type="link" data-resource-search="biology cell structure youtube video"><div class="resource-cover cover-blue"><span>WATCH</span><strong>Cell structure</strong><small>BIOLOGY</small></div><div class="resource-details"><span class="resource-type">VIDEO SEARCH</span><h3>Cell structure lesson</h3><p>Find a video that follows the topic you're studying.</p><a href="https://www.youtube.com/results?search_query=JAMB+Biology+cell+structure+lesson" target="_blank" rel="noopener noreferrer">Find videos ↗</a></div></article>
+            <article class="resource-card" data-resource-type="note" data-resource-search="my revision note template"><div class="resource-cover cover-peach"><span>NOTES</span><strong>My revision<br>notes</strong><small>YOUR SPACE</small></div><div class="resource-details"><span class="resource-type">NOTE TEMPLATE</span><h3>Revision note starter</h3><p>A simple structure for writing key ideas and questions.</p><button class="resource-action" data-open-note>Open note →</button></div></article>
+          </div>
+          <div class="local-storage-note"><span>ⓘ</span> Uploaded files are kept in this browser only for now. Avoid uploading private documents on a shared device.</div>
+        </section>
+
+        <section class="view-section" id="view-planner" data-view="planner">
+          <div class="page-intro"><span class="eyebrow green-eyebrow">A ROUTINE THAT FITS YOUR LIFE</span><h1>Make a little <em>plan.</em></h1><p>Set a target you can actually reach, then celebrate yourself for showing up.</p></div>
+          <div class="planner-grid">
+            <section class="panel goal-panel"><div class="panel-heading"><div><span class="eyebrow">TODAY'S GOAL</span><h3>Your daily study promise</h3></div><span class="goal-icon">✳</span></div><div class="goal-progress-wrap"><div class="goal-circle" id="goal-circle"><div><strong id="goal-percent">0%</strong><small>of your goal</small></div></div><div class="goal-inputs"><label for="goal-minutes">Daily study target</label><div class="number-input"><input id="goal-minutes" type="number" min="10" max="360" step="5" value="60"><span>minutes</span></div><button class="button button-primary" id="save-goal">Save goal</button></div></div><div class="goal-note" id="goal-note">You can start small. Consistency matters more than a perfect plan.</div></section>
+            <section class="panel reading-panel"><div class="panel-heading"><div><span class="eyebrow">READING TRACKER</span><h3>Keep turning pages</h3></div><span class="reading-icon">▤</span></div><form id="reading-form" class="reading-form"><label>What are you reading?<input id="reading-title" type="text" placeholder="e.g. Biology revision notes" required></label><div class="reading-fields"><label>Pages read<input id="reading-pages" type="number" min="1" max="1000" value="5" required></label><label>Minutes<input id="reading-time" type="number" min="1" max="360" value="15" required></label></div><button class="button button-outline" type="submit">＋ Log reading</button></form><div class="reading-log" id="reading-log"><p class="empty-state">Your reading sessions will appear here.</p></div></section>
+          </div>
+          <section class="panel timetable-panel"><div class="panel-heading"><div><span class="eyebrow">YOUR WEEK</span><h3>Study timetable</h3><p class="panel-subtitle">Edit the plan to fit your school and rest time.</p></div><button class="quiet-link" id="reset-timetable">Reset sample plan ↻</button></div><div class="timetable-wrap"><table class="timetable"><thead><tr><th>Day</th><th>Study focus</th><th>Time</th><th>Done</th></tr></thead><tbody id="timetable-body"></tbody></table></div></section>
+        </section>
+
+        <section class="view-section" id="view-progress" data-view="progress">
+          <div class="page-intro"><span class="eyebrow green-eyebrow">NOTICE HOW FAR YOU'VE COME</span><h1>Your progress, <em>your pace.</em></h1><p>Use your results to choose what to revise next, never as a reason to be hard on yourself.</p></div>
+          <div class="progress-kpis stat-grid"><article class="stat-card"><div class="stat-icon stat-mint">◷</div><div><span class="stat-label">Study minutes logged</span><strong id="progress-minutes">0</strong><div class="stat-foot">Your effort counts</div></div></article><article class="stat-card"><div class="stat-icon stat-lilac">✓</div><div><span class="stat-label">Topics completed</span><strong id="progress-topics">0</strong><div class="stat-foot">One topic at a time</div></div></article><article class="stat-card"><div class="stat-icon stat-peach">◎</div><div><span class="stat-label">Quizzes completed</span><strong id="progress-quizzes">0</strong><div class="stat-foot">Every attempt teaches you something</div></div></article></div>
+          <div class="panel progress-subject-panel"><div class="panel-heading"><div><span class="eyebrow">BY SUBJECT</span><h3>Your learning map</h3></div></div><div id="progress-subjects" class="progress-subjects"></div></div>
+          <div class="encouragement-strip"><div class="encourage-mark">♡</div><div><span class="eyebrow">REMEMBER THIS</span><p>Progress isn't always a straight line. Rest when you need to, ask for help, and keep going when you're ready.</p></div></div>
+        </section>
+      </div>
+      <footer class="app-footer"><span>✳</span> PrepSage JAMB <span class="footer-dot">·</span> Built with care for your 2027 journey <span class="footer-heart">♥</span><span class="footer-version">A personal study space</span></footer>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog class="modal" id="note-modal"><form method="dialog" class="modal-inner"><div class="modal-heading"><div><span class="eyebrow">YOUR PERSONAL NOTES</span><h2>Revision note</h2></div><button class="icon-button" aria-label="Close">×</button></div><label for="note-title">Title</label><input id="note-title" class="form-input" maxlength="90" placeholder="e.g. Cell structure key facts"><label for="note-body">Write what you want to remember</label><textarea id="note-body" class="form-textarea" rows="7" placeholder="Key ideas, examples, questions to revisit..."></textarea><div class="modal-actions"><button type="button" class="button button-quiet" id="close-note">Cancel</button><button type="button" class="button button-primary" id="save-note">Save note</button></div></form></dialog>
+  <dialog class="modal" id="resource-modal"><form method="dialog" class="modal-inner"><div class="modal-heading"><div><span class="eyebrow">YOUR PERSONAL LIBRARY</span><h2>Add a study link</h2></div><button class="icon-button" aria-label="Close">×</button></div><label for="resource-title">Resource name</label><input id="resource-title" class="form-input" placeholder="e.g. Biology revision video" maxlength="90"><label for="resource-url">Website or video URL</label><input id="resource-url" class="form-input" type="url" placeholder="https://..."><label for="resource-kind">Type</label><select id="resource-kind" class="form-input"><option value="link">Link / video</option><option value="note">Note</option></select><div class="modal-actions"><button type="button" class="button button-quiet" id="cancel-resource">Cancel</button><button type="button" class="button button-primary" id="save-resource">Add to library</button></div></form></dialog>
+  <script src="./app.js" defer></script>
+</body>
+</html>
