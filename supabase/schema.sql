@@ -142,3 +142,16 @@ for each row execute procedure public.handle_new_prep_sage_user();
 -- Important: role is never copied from user-editable metadata.
 -- Promote the trusted owner to admin manually in SQL after their Auth account exists:
 -- update public.profiles set role = 'admin' where id = '<owner-auth-user-uuid>';
+
+-- Single versioned snapshot used to synchronise the existing study app across devices.
+create table if not exists public.student_state (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  state jsonb not null default '{}'::jsonb,
+  updated_at timestamptz not null default now()
+);
+alter table public.student_state enable row level security;
+drop policy if exists "Users manage own synced state" on public.student_state;
+create policy "Users manage own synced state" on public.student_state
+  for all to authenticated
+  using ((select auth.uid()) = user_id)
+  with check ((select auth.uid()) = user_id);
