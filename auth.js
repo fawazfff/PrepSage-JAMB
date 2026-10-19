@@ -75,7 +75,7 @@
    if(row?.state&&typeof row.state==="object"){
     const local=localStorage.getItem("prepsage-jamb-v1");
     const remoteDate=Date.parse(row.updated_at||0),localObj=local?JSON.parse(local):null;
-    if(fromLogin&&localObj&&confirm("This account has saved progress. Use the cloud copy and replace this browser's current progress?")){restoring=true;localStorage.setItem("prepsage-jamb-v1",JSON.stringify(row.state));location.reload();return;}
+    if(fromLogin&&localObj){if(confirm("This account has saved progress. Use the cloud copy and replace this browser's current progress?")){restoring=true;localStorage.setItem("prepsage-jamb-v1",JSON.stringify(row.state));location.reload();return;}else{restoring=true;localStorage.removeItem("prepsage-jamb-v1");location.reload();return;}}
     if(!local){restoring=true;localStorage.setItem("prepsage-jamb-v1",JSON.stringify(row.state));location.reload();return;}
    }else if(fromLogin){
     const local=localStorage.getItem("prepsage-jamb-v1");
