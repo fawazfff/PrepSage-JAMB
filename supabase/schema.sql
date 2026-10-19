@@ -155,3 +155,15 @@ create policy "Users manage own synced state" on public.student_state
   for all to authenticated
   using ((select auth.uid()) = user_id)
   with check ((select auth.uid()) = user_id);
+
+-- Explicit Data API privileges; RLS policies above still decide which rows are visible.
+grant usage on schema public to authenticated;
+grant select on public.profiles to authenticated;
+grant update (display_name, updated_at) on public.profiles to authenticated;
+grant select, insert, update, delete on public.topic_progress to authenticated;
+grant select, insert, update, delete on public.quiz_attempts to authenticated;
+grant select, insert, update, delete on public.study_sessions to authenticated;
+grant select, insert, update, delete on public.study_goals to authenticated;
+grant select, insert, update, delete on public.study_plan_items to authenticated;
+grant select, insert, update, delete on public.study_resources to authenticated;
+grant select, insert, update, delete on public.student_state to authenticated;
