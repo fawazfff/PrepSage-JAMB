@@ -21,9 +21,11 @@
  function setSignedIn(user){const b=$("#account-button");if(b)b.textContent=user?(profile?.display_name||user.email||"Account"):"Sign in";const signout=$("#account-signout");if(signout)signout.hidden=!user;const title=$("#account-title");if(title)title.textContent=user?"Your PrepSage account":"Sign in to PrepSage";}
  async function setup(){
   addUI();
-  if(!URL||!KEY){notice("One setup step remains: add the Supabase publishable/anon key in supabase-config.js. Do not use a service-role key here.");return;}
+  let projectUrl=URL,publicKey=KEY;
+  if(!publicKey){try{const cfg=await fetch("/api/public-config").then(r=>r.json());if(cfg.anonKey){projectUrl=cfg.url;publicKey=cfg.anonKey;}}catch{}}
+  if(!projectUrl||!publicKey){notice("Add SUPABASE_ANON_KEY in Vercel Environment Variables, then redeploy. Never use a service-role key in the browser.");return;}
   if(!window.supabase?.createClient){notice("Could not load the Supabase client. Check your connection and refresh.");return;}
-  client=window.supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+  client=window.supabase.createClient(projectUrl,publicKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
   const {data:{session}}=await client.auth.getSession();
   if(session)await onSession(session,false);
   client.auth.onAuthStateChange((event,session)=>{if(event==="SIGNED_IN"&&session)setTimeout(()=>onSession(session,true),0);if(event==="SIGNED_OUT"){profile=null;setSignedIn(null);notice("You have signed out.");}});
