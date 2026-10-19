@@ -2,7 +2,7 @@ export default async function handler(req,res){
 res.setHeader("Cache-Control","no-store");
 if(req.method!=="POST")return res.status(405).json({error:"Use POST for a tutor question."});
 const auth=req.headers.authorization||"";
-if(!/^Bearer\\s+\\S+$/i.test(auth))return res.status(401).json({error:"Sign in to use the AI tutor."});
+if(!/^Bearer\s+\S+$/i.test(auth))return res.status(401).json({error:"Sign in to use the AI tutor."});
 const supabaseUrl=process.env.SUPABASE_URL||"https://ujeyybdabqudzgvjbpiv.supabase.co";
 const publicKey=process.env.SUPABASE_ANON_KEY||process.env.SUPABASE_PUBLISHABLE_KEY;
 if(!publicKey)return res.status(503).json({error:"Account verification is not configured. Try again later."});
