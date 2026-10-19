@@ -18,7 +18,7 @@
   }
   if(!$("#account-modal")){
    const d=document.createElement("dialog");d.id="account-modal";d.className="modal auth-dialog";
-   d.innerHTML='<form method="dialog" class="modal-inner auth-inner" id="account-form"><div class="auth-brand"><span class="auth-brand-mark">✳</span><span><strong>PrepSage</strong><small>JAMB 2027</small></span></div><div class="modal-heading"><div><span class="eyebrow">YOUR PERSONAL STUDY SPACE</span><h2 id="account-title">Create your account</h2></div><button type="button" class="icon-button auth-close" aria-label="Close">×</button></div><p class="auth-intro">A calmer way to prepare for JAMB, one topic at a time. Create an account to keep your lessons, quiz results and study plan with you.</p><label for="account-name" id="account-name-label">What should we call you?</label><input id="account-name" class="form-input" maxlength="80" autocomplete="name" placeholder="Your name"><label for="account-email">Email address</label><input id="account-email" class="form-input" type="email" autocomplete="email" required placeholder="you@example.com"><label for="account-password" id="account-password-label">Create a password</label><input id="account-password" class="form-input" type="password" autocomplete="new-password" minlength="8" required placeholder="At least 8 characters"><button type="button" class="auth-forgot" id="account-forgot">Forgot password?</button><p id="account-message" class="account-message" role="status">Create your account to get started.</p><div class="auth-actions"><button type="button" class="button button-quiet" id="account-signout" hidden>Sign out</button><button type="submit" class="button button-primary" id="account-login">Create account</button><button type="button" class="auth-switch" id="account-switch">Already have an account? Sign in</button></div><p class="auth-footnote">Your study progress is saved to your account when cloud sync is set up.</p></form>';
+   d.innerHTML='<form method="dialog" class="modal-inner auth-inner" id="account-form"><div class="auth-brand"><span class="auth-brand-mark">✳</span><span><strong>PrepSage</strong><small>JAMB 2027</small></span></div><div class="modal-heading"><div><span class="eyebrow">YOUR PERSONAL STUDY SPACE</span><h2 id="account-title">Create your account</h2></div><button type="button" class="icon-button auth-close" aria-label="Close">×</button></div><p class="auth-intro">A calmer way to prepare for JAMB, one topic at a time. Create an account to keep your lessons, quiz results and study plan with you.</p><label for="account-name" id="account-name-label">What should we call you?</label><input id="account-name" class="form-input" maxlength="80" autocomplete="name" required placeholder="Your name"><label for="account-email">Email address</label><input id="account-email" class="form-input" type="email" autocomplete="email" required placeholder="you@example.com"><label for="account-password" id="account-password-label">Create a password</label><input id="account-password" class="form-input" type="password" autocomplete="new-password" minlength="8" required placeholder="At least 8 characters"><button type="button" class="auth-forgot" id="account-forgot">Forgot password?</button><p id="account-message" class="account-message" role="status">Create your account to get started.</p><div class="auth-actions"><button type="button" class="button button-quiet" id="account-signout" hidden>Sign out</button><button type="submit" class="button button-primary" id="account-login">Create account</button><button type="button" class="auth-switch" id="account-switch">Already have an account? Sign in</button></div><p class="auth-footnote">Your study progress is saved to your account when cloud sync is set up.</p></form>';
    document.body.appendChild(d);
    $("#account-form").addEventListener("submit",async e=>{e.preventDefault();if(recoveryMode)await updatePassword();else if(authMode==="signup")await signUp();else await signIn();});
    $("#account-switch").onclick=()=>{authMode=authMode==="signup"?"signin":"signup";setSignedIn(null);notice(authMode==="signup"?"Create your account to get started.":"Sign in to continue your study journey.");};
@@ -49,7 +49,7 @@
   recoveryMode=false;authMode="signin";notice("Password updated. You are signed in.");setSignedIn((await client.auth.getUser()).data.user);setGate(false);
  }
  async function setup(){
-  addUI();
+  addUI();setGate(true);
   let projectUrl=URL,publicKey=KEY;
   if(!publicKey){try{const cfg=await fetch("/api/public-config").then(r=>r.json());if(cfg.anonKey){projectUrl=cfg.url;publicKey=cfg.anonKey;}}catch{}}
   if(!projectUrl||!publicKey){notice("Add SUPABASE_ANON_KEY in Vercel Environment Variables, then redeploy. Never use a service-role key in the browser.");return;}
@@ -58,14 +58,16 @@
   const {data:{session}}=await client.auth.getSession();
   if(session){await onSession(session,false);setGate(false);}else{setSignedIn(null);setGate(true);}
   client.auth.onAuthStateChange((event,session)=>{if(event==="PASSWORD_RECOVERY"){recoveryMode=true;setSignedIn(session?.user||null);notice("Enter a new password with at least 8 characters.");return;}if(event==="SIGNED_IN"&&session)setTimeout(()=>onSession(session,true),0);if(event==="SIGNED_OUT"){profile=null;currentUser=null;recoveryMode=false;authMode="signup";setSignedIn(null);setGate(true);notice("You have signed out. Create an account or sign in to continue.");}});
-  window.prepSageCloudRole=()=>profile?.role||"student";\n  window.prepSageDisplayName=()=>profile?.display_name||currentUser?.user_metadata?.display_name||currentUser?.user_metadata?.full_name||"";
+  window.prepSageCloudRole=()=>profile?.role||"student";
+  window.prepSageDisplayName=()=>profile?.display_name||currentUser?.user_metadata?.display_name||currentUser?.user_metadata?.full_name||"";
   window.prepSageCloudUser=()=>client?.auth.getSession();
   window.prepSageSyncState=(state)=>{if(!client||!profile||restoring)return;clearTimeout(syncTimer);syncTimer=setTimeout(async()=>{try{const {data:{user}}=await client.auth.getUser();if(!user)return;const {error}=await client.from("student_state").upsert({user_id:user.id,state,updated_at:new Date().toISOString()},{onConflict:"user_id"});if(error)console.error("PrepSage sync:",error.message);else notice("Signed in. Progress synced to your account.");}catch(e){console.error("PrepSage sync failed",e);}},900);};
  }
  async function onSession(session,fromLogin){
   if(!client||!session)return;
-  const {data:{user}}=await client.auth.getUser();if(!user)return;
+  const {data:{user}}=await client.auth.getUser();if(!user)return;currentUser=user;
   const {data:p}=await client.from("profiles").select("display_name,role").eq("id",user.id).maybeSingle();profile=p||{display_name:user.user_metadata?.display_name||"",role:"student"};
+  const greeting=document.querySelector("#dashboard-greeting");const displayName=profile.display_name||user.user_metadata?.display_name||user.user_metadata?.full_name||"";if(greeting)greeting.textContent=displayName?"Hey, "+displayName:"Good things take practice.";
   setSignedIn(user);
   try{
    const {data:row,error}=await client.from("student_state").select("state,updated_at").eq("user_id",user.id).maybeSingle();
@@ -93,6 +95,7 @@
  async function signUp(){
   if(!client){notice("Account services are not ready yet. Refresh and try again.");return;}
   const email=$("#account-email").value.trim(),password=$("#account-password").value,name=$("#account-name").value.trim();
+  if(!name){notice("Enter your name so your dashboard can welcome you properly.");$("#account-name").focus();return;}
   if(!email||password.length<8){notice("Enter an email and a password with at least 8 characters.");return;}
   const {data,error}=await client.auth.signUp({email,password,options:{data:{display_name:name},emailRedirectTo:"https://prepsage-jamb.vercel.app/"}});
   if(error){notice(error.message);return;}
