@@ -8,7 +8,7 @@
  function notice(msg){const n=$("#account-message");if(n)n.textContent=msg;}
  function setGate(active){
   document.body.classList.toggle("auth-gate",!!active);
-  const modal=$("#account-modal");
+  const modal=$("#account-modal");if(modal)modal.classList.toggle("gate-mode",!!active);
   if(active&&modal&&!modal.open)modal.showModal();
   if(!active&&modal?.open)modal.close();
  }
