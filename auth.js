@@ -30,7 +30,7 @@
   if(session)await onSession(session,false);
   client.auth.onAuthStateChange((event,session)=>{if(event==="SIGNED_IN"&&session)setTimeout(()=>onSession(session,true),0);if(event==="SIGNED_OUT"){profile=null;setSignedIn(null);notice("You have signed out.");}});
   window.prepSageCloudRole=()=>profile?.role||"student";
-  window.prepSageCloudUser=()=>client?.auth.getUser();
+  window.prepSageCloudUser=()=>client?.auth.getSession();
   window.prepSageSyncState=(state)=>{if(!client||!profile||restoring)return;clearTimeout(syncTimer);syncTimer=setTimeout(async()=>{try{const {data:{user}}=await client.auth.getUser();if(!user)return;const {error}=await client.from("student_state").upsert({user_id:user.id,state,updated_at:new Date().toISOString()},{onConflict:"user_id"});if(error)console.error("PrepSage sync:",error.message);else notice("Signed in. Progress synced to your account.");}catch(e){console.error("PrepSage sync failed",e);}},900);};
  }
  async function onSession(session,fromLogin){
