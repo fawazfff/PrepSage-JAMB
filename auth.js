@@ -59,15 +59,15 @@
   if(!client){notice("Add the Supabase publishable/anon key first.");return;}
   if(recoveryMode){const password=$("#account-password").value;if(password.length<8){notice("Use at least 8 characters for your new password.");return;}const {error}=await client.auth.updateUser({password});if(error){notice(error.message);return;}recoveryMode=false;notice("Password updated. You are signed in.");setSignedIn((await client.auth.getUser()).data.user);return;}
   const email=$("#account-email").value.trim(),password=$("#account-password").value;
-  const {data,error}=await client.auth.signInWithPassword({email,password});if(error){notice(error.message);return;}await onSession(data.session,true);
+  const {data,error}=await client.auth.signInWithPassword({email,password});if(error){notice(error.message);return;}await onSession(data.session,true);$("#account-modal").close();
  }
  async function signUp(){
   if(!client){notice("Add the Supabase publishable/anon key first.");return;}
   const email=$("#account-email").value.trim(),password=$("#account-password").value,name=$("#account-name").value.trim();
   if(!email||password.length<8){notice("Enter an email and a password with at least 8 characters.");return;}
-  const {data,error}=await client.auth.signUp({email,password,options:{data:{display_name:name}}});
+  const {data,error}=await client.auth.signUp({email,password,options:{data:{display_name:name},emailRedirectTo:window.location.origin+window.location.pathname}});
   if(error){notice(error.message);return;}
-  if(data.session)await onSession(data.session,true);else notice("Check your email to confirm the account, then sign in.");
+  if(data.session){await onSession(data.session,true);$("#account-modal").close();}else notice("Check your email to confirm the account, then sign in.");
  }
  async function sendPasswordReset(){if(!client){notice("Account services are not ready yet.");return;}const email=$("#account-email").value.trim();if(!email){notice("Enter your email address first, then choose Forgot password.");$("#account-email").focus();return;}const {error}=await client.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+window.location.pathname});if(error){notice(error.message);return;}notice("If an account exists for that email, a password reset link has been sent.");}
  async function signOut(){if(!client)return;const {error}=await client.auth.signOut();if(error)notice(error.message);else{profile=null;setSignedIn(null);notice("Signed out. This browser keeps its last local copy; another account will not automatically import it.");}}
