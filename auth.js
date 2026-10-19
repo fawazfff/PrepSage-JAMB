@@ -90,7 +90,7 @@
   if(!client){notice("Account services are not ready yet. Refresh and try again.");return;}
   const email=$("#account-email").value.trim(),password=$("#account-password").value;
   const {data,error}=await client.auth.signInWithPassword({email,password});if(error){notice(error.message);return;}
-  await onSession(data.session,true);setGate(false);
+  setGate(false);
  }
  async function signUp(){
   if(!client){notice("Account services are not ready yet. Refresh and try again.");return;}
@@ -99,7 +99,7 @@
   if(!email||password.length<8){notice("Enter an email and a password with at least 8 characters.");return;}
   const {data,error}=await client.auth.signUp({email,password,options:{data:{display_name:name},emailRedirectTo:"https://prepsage-jamb.vercel.app/"}});
   if(error){notice(error.message);return;}
-  if(data.session){await onSession(data.session,true);setGate(false);}
+  if(data.session){setGate(false);}
   else notice("Your account was created. Check your email to confirm it, then sign in.");
  }
  async function sendPasswordReset(){if(!client){notice("Account services are not ready yet.");return;}const email=$("#account-email").value.trim();if(!email){notice("Enter your email address first, then choose Forgot password.");$("#account-email").focus();return;}const {error}=await client.auth.resetPasswordForEmail(email,{redirectTo:"https://prepsage-jamb.vercel.app/"});if(error){notice(error.message);return;}notice("If an account exists for that email, a password reset link has been sent.");}
