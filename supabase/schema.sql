@@ -139,6 +139,12 @@ create trigger on_prep_sage_user_created
 after insert on auth.users
 for each row execute procedure public.handle_new_prep_sage_user();
 
+-- Backfill accounts that existed before this schema was installed.
+insert into public.profiles (id, display_name, role)
+select id, coalesce(raw_user_meta_data ->> 'display_name', ''), 'student'
+from auth.users
+on conflict (id) do nothing;
+
 -- Important: role is never copied from user-editable metadata.
 -- Promote the trusted owner to admin manually in SQL after their Auth account exists:
 -- update public.profiles set role = 'admin' where id = '<owner-auth-user-uuid>';
