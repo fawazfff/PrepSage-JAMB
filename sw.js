@@ -1,4 +1,4 @@
-const CACHE="prepsage-jamb-v8";
+const CACHE="prepsage-jamb-v9";
 const FILES=["./","./index.html","./styles.css","./app.js","./manifest.json","./icon.svg","./content-extra.js","./tutor.js","./syllabus-content.js","./syllabus-final.js","./youtube.js","./admin.js","./adaptive.js","./auth.js","./supabase-config.js"];
 self.addEventListener("install",event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)));self.skipWaiting();});
 self.addEventListener("activate",event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim()));});
