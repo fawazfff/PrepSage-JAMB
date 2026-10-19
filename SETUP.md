@@ -38,3 +38,45 @@ The current admin view reads progress saved in the current browser only. It is a
 - Finish a topic quiz and confirm the score appears in local progress.
 - Open a lesson and confirm the YouTube section either shows results or gives a setup message and fallback search link.
 - Ask the AI tutor after setting `OPENAI_API_KEY`; without the key, it should show a clear configuration message.
+
+## Connect the Supabase project and enable student accounts
+
+Project URL: `https://ujeyybdabqudzgvjbpiv.supabase.co`.
+
+### 1. Create the tables
+
+Open the [Supabase SQL Editor](https://supabase.com/dashboard/project/ujeyybdabqudzgvjbpiv/sql/new), open `supabase/schema.sql` from this repository, copy the entire SQL file into the editor, and click **Run**. This creates the per-student profile, topic progress, quiz attempts, study sessions, goals, timetable, resource and synced-state tables with Row Level Security. If you later edit and rerun this SQL, review any policy errors before proceeding.
+
+### 2. Configure Vercel environment variables
+
+In Vercel → Project → Settings → Environment Variables, add these for Production:
+
+- `SUPABASE_URL` = `https://ujeyybdabqudzgvjbpiv.supabase.co`
+- `SUPABASE_ANON_KEY` = your project's **publishable key** (or legacy anon key) from Supabase API Keys. This key is designed to be used in browser clients, with RLS enabled.
+- `SUPABASE_SERVICE_ROLE_KEY` = the project's secret/service-role key. **Server-side only. Never add this to any browser file, commit it to GitHub, or share it in chat.**
+
+Redeploy after adding variables. The public config endpoint exposes only the publishable/anon key to the browser, never the service-role key.
+
+### 3. Create student accounts
+
+Open the site and use **Sign in → Create account** for each student. If email confirmation is enabled, each student must confirm their email before signing in. Students should use separate accounts and never share passwords.
+
+### 4. Promote the owner account to administrator
+
+After creating your own account and confirming the email, run this SQL in the Supabase SQL Editor, replacing the email with the exact email used for your account:
+
+```sql
+update public.profiles p
+set role = 'admin'
+from auth.users u
+where p.id = u.id
+  and lower(u.email) = lower('YOUR_OWNER_EMAIL_HERE');
+```
+
+Do not let students choose their own role. The signup trigger always assigns `student`; the admin API verifies the role server-side.
+
+### 5. Verify
+
+Sign in on the website, make a small progress change, then check the `student_state` table in Supabase Table Editor. Open **Study overview** using the admin account to view student accounts, synced minutes, completed topics, quiz counts, average quiz accuracy, and last-sync time.
+
+The account sync stores the app's current progress snapshot per authenticated user. Normalized tables are included for a future migration to event-by-event analytics. Do not treat a browser's offline changes as synced until the account panel confirms success.
