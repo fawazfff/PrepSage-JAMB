@@ -2,7 +2,7 @@
    Requires the public Supabase publishable/anon key in supabase-config.js. */
 (function(){
  const URL=window.PREPSAGE_SUPABASE_URL,KEY=window.PREPSAGE_SUPABASE_ANON_KEY;
- let client=null, syncTimer=null, restoring=false, profile=null, recoveryMode=false, authMode="signup";
+ let client=null, syncTimer=null, restoring=false, profile=null, currentUser=null, recoveryMode=false, authMode="signup";
  const $=s=>document.querySelector(s);
  const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
  function notice(msg){const n=$("#account-message");if(n)n.textContent=msg;}
@@ -57,8 +57,8 @@
   client=window.supabase.createClient(projectUrl,publicKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
   const {data:{session}}=await client.auth.getSession();
   if(session){await onSession(session,false);setGate(false);}else{setSignedIn(null);setGate(true);}
-  client.auth.onAuthStateChange((event,session)=>{if(event==="PASSWORD_RECOVERY"){recoveryMode=true;setSignedIn(session?.user||null);notice("Enter a new password with at least 8 characters.");return;}if(event==="SIGNED_IN"&&session)setTimeout(()=>onSession(session,true),0);if(event==="SIGNED_OUT"){profile=null;recoveryMode=false;authMode="signup";setSignedIn(null);setGate(true);notice("You have signed out. Create an account or sign in to continue.");}});
-  window.prepSageCloudRole=()=>profile?.role||"student";
+  client.auth.onAuthStateChange((event,session)=>{if(event==="PASSWORD_RECOVERY"){recoveryMode=true;setSignedIn(session?.user||null);notice("Enter a new password with at least 8 characters.");return;}if(event==="SIGNED_IN"&&session)setTimeout(()=>onSession(session,true),0);if(event==="SIGNED_OUT"){profile=null;currentUser=null;recoveryMode=false;authMode="signup";setSignedIn(null);setGate(true);notice("You have signed out. Create an account or sign in to continue.");}});
+  window.prepSageCloudRole=()=>profile?.role||"student";\n  window.prepSageDisplayName=()=>profile?.display_name||currentUser?.user_metadata?.display_name||currentUser?.user_metadata?.full_name||"";
   window.prepSageCloudUser=()=>client?.auth.getSession();
   window.prepSageSyncState=(state)=>{if(!client||!profile||restoring)return;clearTimeout(syncTimer);syncTimer=setTimeout(async()=>{try{const {data:{user}}=await client.auth.getUser();if(!user)return;const {error}=await client.from("student_state").upsert({user_id:user.id,state,updated_at:new Date().toISOString()},{onConflict:"user_id"});if(error)console.error("PrepSage sync:",error.message);else notice("Signed in. Progress synced to your account.");}catch(e){console.error("PrepSage sync failed",e);}},900);};
  }
