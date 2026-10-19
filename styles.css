@@ -40,7 +40,7 @@ body.auth-gate{overflow:hidden;background:#f7faf6}
 body.auth-gate .app-shell,body.auth-gate .toast{display:none!important}
 .auth-dialog{padding:0;background:#f7faf6;border:0;border-radius:0;box-shadow:none}
 .auth-dialog::backdrop{background:#f7faf6}
-.auth-dialog[open]{position:fixed;inset:0;margin:0;width:100%;max-width:none;height:100%;max-height:none;display:grid;place-items:center;overflow:auto}
+.auth-dialog.gate-mode[open]{position:fixed;inset:0;margin:0;width:100%;max-width:none;height:100%;max-height:none;display:grid;place-items:center;overflow:auto}\n.auth-dialog:not(.gate-mode){width:min(470px,calc(100% - 30px));max-width:470px;height:auto;max-height:calc(100% - 30px);border:1px solid #e4eae4;border-radius:16px;box-shadow:0 25px 90px rgba(20,42,26,.2)}\n.auth-dialog:not(.gate-mode) .auth-inner{min-height:0;padding:24px}\n.auth-dialog:not(.gate-mode) .auth-close{display:grid}
 .auth-inner{box-sizing:border-box;width:min(100%,500px);max-width:500px;min-height:100%;align-content:center;gap:12px;padding:clamp(24px,6vw,54px);margin:auto}
 .auth-brand{display:flex;align-items:center;gap:10px;margin-bottom:18px;color:#274b31}
 .auth-brand-mark{display:grid;place-items:center;width:40px;height:40px;border-radius:13px;background:#e2f0df;color:#347d49;font-size:22px}
